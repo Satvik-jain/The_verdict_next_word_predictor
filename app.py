@@ -39,17 +39,14 @@ from keras.layers import Embedding, Dense, LSTM
 from keras.models import Sequential
 
 model = Sequential()
-model.add(Embedding(1100, 100, input_length = 230))
-model.add(LSTM(300))
+model.add(Embedding(1100, 50, input_length = 230))
+model.add(LSTM(250))
 model.add(Dense(1100, activation = 'softmax'))
-
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
-
 model.summary()
+model.fit(X, y, epochs = 50)
 
-model.fit(X, y, epochs = 100)
-
-def prediction(t,l):
+def prediction(t='',l=1):
   text = t
   sentence_length = l
   for repeat in range(sentence_length):
@@ -66,8 +63,8 @@ import gradio as gr
 demo = gr.Interface(title = "The Verdict",
                     examples = [['It had always been'], ['I found the couple at'],['She glanced out almost']],
                     fn=prediction,
-                    inputs=[gr.Textbox(lines = 2, label = 'Query', placeholder='Enter Here'),
-                            gr.Slider(1,100,step = 1, label = "How many Words to generate?")],
+                    inputs=[gr.Textbox(lines = 2, label = 'Query', placeholder='Enter Here', value=""),
+                            gr.Slider(1,100,step = 1, label = "How many Words to generate?", value = 1)],
                     outputs=gr.Text(lines = 7, ), allow_flagging = 'never', theme=gr.themes.Base())
 
 demo.launch(share = True)
