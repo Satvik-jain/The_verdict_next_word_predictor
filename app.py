@@ -40,7 +40,7 @@ from keras.models import Sequential
 
 model = Sequential()
 model.add(Embedding(1100, 100, input_length = 230))
-model.add(LSTM(200))
+model.add(LSTM(300))
 model.add(Dense(1100, activation = 'softmax'))
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
